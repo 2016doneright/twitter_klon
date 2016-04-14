@@ -1,0 +1,1 @@
+$('.tweet_<%= @tweet.id %>').find('.retweet_partial').children().replaceWith('<%= j render "tweets/retweet_button", tweet: @tweet %>');

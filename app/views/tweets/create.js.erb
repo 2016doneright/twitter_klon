@@ -1,0 +1,70 @@
+<% if @tweet.save %>
+  $('.tweet_box').val('');
+  $('.create_tweet_image').attr('src', '').css({'width':'1px'});
+  function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('.create_tweet_image').attr('src', e.target.result);
+                    $('.create_tweet_image').css({'width':'200px'});
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#tweet_image").change(function() {
+            var size_in_megabytes = this.files[0].size / 1024 / 1024;
+            if (size_in_megabytes > 1) {
+                swal({
+                    title: "Try it again",
+                    text: "Keep the image size below 1MB and only .jpg, .jpeg .png and .gif please",
+                    type: "error",
+                    timer: 5000
+                });
+            }
+            else {
+                readURL(this);
+            };
+        });
+          $('#feed').prepend('<%= j render("tweets/tweet", tweet: @tweet) %>');
+          html5tooltips.refresh();
+          $('.ats').tooltipster({
+            animation: 'fade',
+            arrowColor: '#3d3d3d',
+            speed: '250',
+            content: 'Loading',
+            interactive: true,
+            functionBefore: function(origin, continueTooltip) {
+
+                // we'll make this function asynchronous and allow the tooltip to go ahead and show the loading notification while fetching our data
+                continueTooltip();
+                // next, we want to check if our data has already been cached
+                if (origin.data('ajax') !== 'cached') {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'script',
+                        data: { profile_name: (this).attr('href').slice(1,150)},
+                        url: '/tooltip',
+                        success: function(data) {
+                            // update our tooltip content with our returned data and cache it
+                        }
+                    });
+                }
+            }
+        });
+
+
+<% else %>
+    swal({   
+        title: "Try it again!",   
+        text: "<%= j (@tweet.errors.full_messages.first).html_safe %>",   
+        type: "error",
+        timer: 3000
+        });
+<% end %>
+
+
+
+

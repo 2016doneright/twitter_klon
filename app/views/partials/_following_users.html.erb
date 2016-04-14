@@ -1,0 +1,19 @@
+<% @following_users.each do |user| %>
+    <div class="ff user_<%= user.id %>">
+            <div class="user_cover" style='background-image: url(<%= user.cover.url if user.cover.present? %>)'>
+                <%= link_to get_profile_path(user.profile_name) do %>
+                    <%=image_tag(user.avatar.url, class: "following") %>
+                <% end %>
+            </div>
+            <div>
+                <div class='replace_follow_partial'>
+                    <%= render 'partials/follow_user', user: user %>
+                </div>
+            <div>
+                    <h4><%= user.real_name %></h4>
+                    <h6>@<%= user.profile_name %></h6>
+                    <div class="description"><%= user.description if user.description? %></div>
+            </div>
+                </div>
+            </div>
+<% end %>

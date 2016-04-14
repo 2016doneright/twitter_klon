@@ -1,0 +1,182 @@
+
+    <div class="hero_pic" style="background-image: url(<%= current_user.cover.url || "/assets/881.jpg" %>)">
+         
+         <%= image_tag current_user.avatar.url || "1.jpg", class: "hero_avatar" %>
+                <div class="change_it">
+                    <%= render "partials/follow_button", user: current_user %>
+                </div>
+        </div>
+        
+    <div class="w-row row">
+            <div class="columan_2">
+                <div class="w-form form_wrapper">
+                    <%= render 'tweets/tweet_form' %>
+                </div>
+                <div class="w-tabs whole_tabs" data-duration-in="300" data-duration-out="100">
+                    <div class="w-tab-menu">
+                        <a class="w-tab-link w-inline-block get_tweets w--current" data-w-tab="Tab 1" style='padding-top: 3%;'>
+                            <div>My feed</div>
+                            <div class="number_of_tweets"></div>
+                        </a>
+                        
+                        <%= link_to following_users_path(current_user.profile_name), class: "w-tab-link w-inline-block get followings", data: {:'w-tab'=>'Tab 2'} do %>    
+                                 <div>Following</div>
+                             <div class="number_of_followings"><%= current_user.following_users.count %></div>
+                        <% end %>
+                        
+                        <%= link_to users_followers_path(current_user.profile_name), class: "w-tab-link w-inline-block get_followers", data: {:'w-tab' => 'Tab 3'} do %>
+                        <div>Followers</div>
+                        <div class="number_of_followers"><%= current_user.followers.count %></div>
+                        <% end %>
+                        
+                        <%= link_to likes_tweets_path(current_user.profile_name), class: "w-tab-link w-inline-block get_favorites", data: {:'w-tab' => 'Tab 4'} do %>
+                        <div>Likes</div>
+                        <div class="number_of_favorites"><%= current_user.find_liked_items.size %></div>
+                        <% end %>
+                        
+                        <a class="w-tab-link w-inline-block get_favorites" data-w-tab="Tab 5">
+                            <div>Killer for hire</div>
+                        </a>
+                    </div>
+                    <div class="w-tab-content">
+                        <div class="w-tab-pane" data-w-tab="Tab 1">
+                            <div class="tweet_wrapper">
+                                <div class="w-row whole" id="feed">
+                                     <%= render @feed %>
+                                </div>
+                            </div>
+                        <%= will_paginate @feed %>
+                        <div class="la-ball-elastic-dots la-dark" style='margin:auto; display:none;'>
+                                 <div></div>
+                                 <div></div>
+                                 <div></div>
+                                 <div></div>
+                                 <div></div>
+                               </div>
+                        </div>
+                        <div class="w-tab-pane" data-w-tab="Tab 2">
+                            <div class="w-row">
+                            </div>
+                        </div>
+                        <div class="w-tab-pane" data-w-tab="Tab 3">
+                            <div class="w-row">
+                            </div>
+                        </div>
+                        <div class="w-tab-pane" data-w-tab="Tab 4">
+                            <div class="w-row">
+                        </div>
+                    </div>
+                        <div class="w-tab-pane" data-w-tab="Tab 5">
+                            <div class="tweet_wrapper">
+                                <div class="w-row">
+                                    <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js" async></script><div class="wistia_responsive_padding" style="padding:43.75% 0 28px 0;position:relative;"><div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><div class="wistia_embed wistia_async_w2o4m43xkw videoFoam=true" style="height:100%;width:100%">&nbsp;</div></div></div>
+                                    <h4>Attribution and thank you belongs to <a target="_blank" href='http://www.blendswap.com/blends/view/80243'>Blenderman</a> for the shark.</h4>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+<script>
+    var ready;
+    ready = function() {
+
+        $('.spinner').hide();
+        $('.ats').tooltipster({
+            animation: 'fade',
+            arrowColor: '#3d3d3d',
+            speed: '250',
+            content: 'Loading..',
+            interactive: true,
+            functionBefore: function(origin, continueTooltip) {
+
+                // we'll make this function asynchronous and allow the tooltip to go ahead and show the loading notification while fetching our data
+                continueTooltip();
+                // next, we want to check if our data has already been cached
+                if (origin.data('ajax') !== 'cached') {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'script',
+                        data: { profile_name: (this).attr('href').slice(1,150)},
+                        url: '/tooltip',
+                        success: function(data) {
+                            // update our tooltip content with our returned data and cache it
+                        }
+                    });
+                }
+            }
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('.create_tweet_image').attr('src', e.target.result);
+                    $('.create_tweet_image').css({'width':'200px'});
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#tweet_image").change(function() {
+            var size_in_megabytes = this.files[0].size / 1024 / 1024;
+            if (size_in_megabytes > 1) {
+                swal({
+                    title: "Try it again",
+                    text: "Keep the image size below 1MB and only .jpg, .jpeg .png and .gif please",
+                    type: "error",
+                    timer: 5000
+                });
+            }
+            else {
+                readURL(this);
+            };
+        });
+        
+        if ($('.tweet_box').val().length == 0) {
+            $('.tweet_button').attr('disabled', true).addClass('disabled_button');
+        }
+        
+        $('.tweet_box').keydown(function() {
+            var length = $(this).val().length;
+            var result = 150 - length;
+            $('.letters').text(result);
+            if (result < 0) {
+                $('.letters').addClass('red');
+                $('.tweet_button').attr('disabled', true).addClass('disabled_button');
+            }
+            else {
+                $('.letters').removeClass('red');
+                $('.tweet_button').attr('disabled', false).removeClass('disabled_button');
+        
+            }
+        });
+
+        if (gon.following) {
+            var data = gon.following;
+        }
+
+        $('.tweet_box').atwho({
+            at: "@",
+            'data': data,
+            limit: 10,
+            highlightFirst: true
+        });
+        
+        var hashtags = ["100thingsaboutme", "30GoodMovies", "ifitWereUpToMe", "ToMyFutureKids", "10PlacesiWantToGO", "MyFavoriteLineWhenImMad", "SomeoneCuteOnTwitter", "threewords", "OverUsedWords", "15ThingsGirlsHate", "10FavouriteLyrics", "MyLastWordsBeforeDie", "addictedto", "TheDateWasOverWhen", "20PeopleThinkArePretty", "SomePeopleNeedTo", "FavoriteLinesinClass", "10FavoriteRappers"]
+        
+        $('.tweet_box').atwho({
+              at: '#',
+              'data': hashtags,
+              limit: 25,
+              highlightFirst: true
+        })
+    };
+
+    $(document).ready(ready);
+    $(document).on('page:load', ready);
+</script>

@@ -1,0 +1,9 @@
+<% if current_user.following?(user) %> 
+     <%= link_to unfollow_person_around_path(profile_name: user.profile_name), class: "w-button follow_button", method: :put, remote: true do %>
+         <div class="follow_text">unFollow person</div>
+     <% end %>
+  <% else %>
+       <%= link_to follow_person_around_path(profile_name: user.profile_name), class: "w-button follow_button", method: :put, remote: true do %>
+         <div class="follow_text">Follow person</div>
+       <% end %>
+<% end %>

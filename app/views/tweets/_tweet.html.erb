@@ -1,0 +1,46 @@
+<div class="tweet_<%= tweet.id %>">
+    <div class="w-col w-col-2">
+      <%= link_to get_profile_path(tweet.user.profile_name), class: 'ats' do %>  
+        <%= image_tag tweet.user.avatar.url || "1.jpg", width: "50", class: "avatar_rounded" %></div>
+      <% end %>
+    <div class="w-col w-col-10">
+        <div class="person_info">
+            <h5 class="real_name">
+                <%= link_to get_profile_path(tweet.user.profile_name), class: 'tweet_real_name' do %>
+                    <%= tweet.user.real_name %>
+                <% end %>
+                <%= link_to get_profile_path(tweet.user.profile_name), class: 'tweet_profile_name' do %>
+                    @<%= tweet.user.profile_name %>
+                <% end %>
+                created <%= time_ago_in_words(tweet.created_at) %> ago
+            </h5>
+            
+        </div>
+        <p><%= auto_link(parse(tweet.content), html: { target: '_blank' }) %></p>
+            <%= image_tag (tweet.image_url), class: "nice" if tweet.image? %>
+        <div class="junk">
+            <div class="w-row">
+                <div class="w-col w-col-3" style="padding:15px;"><img class="reply_button" data-tooltip="Replies will be included in the final" width="30" src="https://daks2k3a4ib2z.cloudfront.net/55ead0db5402dd091adf3971/5637a4400b73bb666a02e8b1_reply.svg"></div>
+                <div class="retweet_partial">
+                    <%= render "tweets/retweet_button", tweet: tweet %>
+                </div>
+                <div class="w-col w-col-3">
+                    <div class="likes_size">
+                        <%= tweet.get_likes.size %>
+                    </div>
+                    
+                    <div class="like_partial">
+                        <%= render "tweets/like", tweet: tweet %>
+                    </div>
+                </div>
+                <div class="w-col w-col-3" style="padding:15px;">
+                    <% if current_user == tweet.user %>
+                       <%= link_to tweet_path(tweet), method: :delete, remote: true do %>
+                           <img class="delete_button" width="30" src="/assets/trash.svg">
+                       <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

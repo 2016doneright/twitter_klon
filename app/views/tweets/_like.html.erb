@@ -1,0 +1,9 @@
+<% if current_user.liked?(tweet) %>
+    <%= link_to unlike_this_tweet_path(tweet), method: :delete, remote: true do%>
+        <div class="box-like box-liked" data-ix="show-alt" style="transition: all 0.35s ease 0s;"></div>
+    <% end %>
+<% else %>
+    <%= link_to like_this_tweet_path(tweet), method: :put, remote: true do %>
+        <div class="box-like" data-ix="show-alt" style="transition: all 0.35s ease 0s;"></div>
+    <% end %>
+<% end %>

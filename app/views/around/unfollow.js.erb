@@ -1,0 +1,3 @@
+<% if @success %>
+   $('.user_<%= @user.id %>').find('.replace_follow_partial').children().replaceWith('<%= j render "partials/follow_user", user: @user %>');
+<% end %>

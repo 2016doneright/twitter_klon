@@ -1,0 +1,3 @@
+$('.whole').append('<%= j render 'partials/following_users' %>');
+html5tooltips.refresh();
+$('.pagination').replaceWith('<%= will_paginate @following_users, style: "display:none;" %>');

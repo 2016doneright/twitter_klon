@@ -1,0 +1,2 @@
+$('.tweet_<%= @tweet.id %>').find('.likes_size').html('<%= @tweet.get_likes.size %>');
+$('.tweet_<%= @tweet.id %>').find('.like_partial').children().html('<%= j render "like", tweet: @tweet %>');

@@ -1,0 +1,75 @@
+<div class="hero_pic" style="background-image: url(<%= @user.cover.url || "/assets/881.jpg" %>)">
+
+     <%= image_tag @user.avatar.url || "1.jpg", class: "hero_avatar" %>
+        <div class="change_it">
+            <%= render "partials/follow_button", user: @user %>
+        </div>
+    </div>
+
+<div class="w-row row">
+        <div class="columan_2">
+            <div class="w-tabs whole_tabs" data-duration-in="300" data-duration-out="100">
+                <div class="w-tab-menu">
+                    <%= link_to get_profile_path(@user.profile_name), class: "w-tab-link w-inline-block get_tweets", data: {:'w-tab' => 'Tab 1'} do %>
+                        <div>Tweets</div>
+                        <div class="number_of_tweets"><%= @user.tweets.count %></div>
+                    <% end %>
+                    <%= link_to following_users_path(@user.profile_name), class: "w-tab-link w-inline-block get followings", data: {:'w-tab'=>'Tab 2'} do %>    
+                                 <div>Following</div>
+                             <div class="number_of_followings"><%= @user.following_users.count %></div>
+                         
+                     <% end %>
+                    <%= link_to users_followers_path(@user.profile_name), class: "w-tab-link w-inline-block get_followers", data: {:'w-tab' => 'Tab 3'} do %>
+                        <div>Followers</div>
+                        <div class="number_of_followers"><%= @user.followers.count %></div>
+                    <% end %>
+                    <%= link_to likes_tweets_path(@user.profile_name), class: "w-tab-link w-inline-block get_favorites", data: {:'w-tab' => 'Tab 4'} do %>
+                        <div>Likes</div>
+                        <div class="number_of_favorites"><%= @user.find_liked_items.size %></div>
+                    <% end %>
+                    <a class="w-tab-link w-inline-block get_favorites" data-w-tab="Tab 5">
+                        <div>Killer for hire</div>
+                    </a>
+                </div>
+                <div class="w-tab-content">
+                    <div class="w-tab-pane" data-w-tab="Tab 1">
+                        <div class="tweet_wrapper">
+                            <div class="w-row" id="feed">
+                            </div>
+                        </div>
+    
+                    </div>
+                    <div class="w-tab-pane" data-w-tab="Tab 2">
+                        <div class="w-row whole">
+                            <%= render 'partials/following_users' %>
+                        </div>
+                        <%= will_paginate @following_users, style: "display:none;" %>
+                            <div class="la-ball-elastic-dots la-dark" style='margin:auto; display:none;'>
+                                 <div></div>
+                                 <div></div>
+                                 <div></div>
+                                 <div></div>
+                                 <div></div>
+                            </div>
+                    </div>
+                    <div class="w-tab-pane" data-w-tab="Tab 3">
+                        <div class="w-row">
+                        </div>
+                    </div>
+                    <div class="w-tab-pane" data-w-tab="Tab 4">
+                        <div class="tweet_wrapper">
+                            <div class="w-row">
+                        </div>
+                    </div>
+                </div>
+                    <div class="w-tab-pane" data-w-tab="Tab 5">
+                        <div class="tweet_wrapper">
+                            <div class="w-row">
+                                <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js" async></script><div class="wistia_responsive_padding" style="padding:43.75% 0 28px 0;position:relative;"><div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><div class="wistia_embed wistia_async_w2o4m43xkw videoFoam=true" style="height:100%;width:100%">&nbsp;</div></div></div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    

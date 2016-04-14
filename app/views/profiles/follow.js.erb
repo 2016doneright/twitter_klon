@@ -1,0 +1,4 @@
+<% if @success %>
+   $('.change_it').children().replaceWith('<%= j render "partials/follow_button", user: @user %>');
+<% end %>
+

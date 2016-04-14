@@ -1,0 +1,3 @@
+<% if a.trackable %>
+followed <%= link_to activity.trackable.followable.real_name, get_profile_path(activity.trackable.followable.profile_name) %> at <%= activity.created_at %>
+<% end %>

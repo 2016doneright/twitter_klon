@@ -1,0 +1,13 @@
+<%= form_for Tweet.new, remote: true do |f| %>
+  <%= f.text_field :content, class: "w-input tweet_box", autocomplete: "off", id: "email", placeholder: "This is it, make it count. Do not click on suspicious links." %>
+  <img src="//:0" class='create_tweet_image' width='1px'>
+  <label for="tweet_image" class='whatever'>
+      <%= image_tag 'upload.svg', class: 'inside' %>
+      <h4>Try to keep it below 1MB, please.</h4>
+  </label>
+  <%= f.file_field :image, class: 'inputfile'%>
+  <%= f.hidden_field :image_cache %>
+  <%= f.button "Make a tweet", class: "w-button tweet_button", data: {disable_with: 'Ok, tweeting..'} %>
+  <div class="rename">Letters remaining:</div>
+  <div class="w-clearfix counter"><strong class="letters"> 150</strong></div>
+<% end %>

@@ -1,0 +1,20 @@
+
+<% if retweeted?(tweet.id) %> 
+  <%= link_to retweet_path(:id => tweet.id), method: :delete, remote: true do %>
+    <div class="w-col w-col-3" style="padding:15px;">
+          <div class="retweets_size" style="float: right; margin-top: 5px; "><%= tweet.retweets.size %></div>
+          <img class="retweeted_button" width="30" src="/assets/retweeted.svg">
+    </div>
+  <% end %>
+<% else %>
+  <%= link_to retweets_path(:tweet_id => tweet.id), method: :post, remote: true do %>
+    <div class="w-col w-col-3" style="padding:15px;">
+        <div class="retweets_size" style="float: right; margin-top: 5px; "><%= tweet.retweets.size %></div>
+        <img class="retweet_button" width="30" src="/assets/retweet.svg">
+    </div>
+  <% end %>
+<% end %>
+  
+
+  
+  

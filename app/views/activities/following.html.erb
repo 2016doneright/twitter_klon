@@ -1,0 +1,4 @@
+<% @activity.each do |activity| %>
+  <%= activity.owner.real_name %>
+  <%= render_activity(activity) %><br>
+<% end %>

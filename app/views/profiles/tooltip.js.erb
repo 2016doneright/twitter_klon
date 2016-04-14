@@ -1,0 +1,2 @@
+$('.tooltipster-content').css({"background-image":"url(<%= @user.cover.url || "/assets/881.jpg" %>)"});
+$('.tooltipster-content').prepend('<div class="tooltip"><div class="tooltip_cover"><%= link_to get_profile_path(@user.profile_name) do %><%=image_tag(@user.avatar.url, class: "following") %><% end %><div class="tooltip_description"><h5><%= @user.real_name %></h5><div><%= @user.description%></div></div></div></div>')

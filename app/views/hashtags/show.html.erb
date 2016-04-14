@@ -1,0 +1,20 @@
+<% if @hashtagged %>
+    <div class="hashtags_holder whole">
+        <h1 style='text-align:center;'>#<%= params[:hashtag] %></h1><br>
+        <%= render 'partials/hashtag_partial' %>
+    </div>
+    
+<% else %>
+  <p>There is no match for the <em><%= params[:hashtag] %></em> hashtag.</p>
+<% end %>
+
+<%= will_paginate @hashtagged, style: "display:none;" %>
+
+ <div class="la-ball-elastic-dots la-dark" style='margin:auto; display:none;'>
+     <div></div>
+     <div></div>
+     <div></div>
+     <div></div>
+     <div></div>
+</div>
+
